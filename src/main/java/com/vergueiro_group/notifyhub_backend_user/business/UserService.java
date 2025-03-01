@@ -6,6 +6,7 @@ import com.vergueiro_group.notifyhub_backend_user.infrastructure.entity.User;
 import com.vergueiro_group.notifyhub_backend_user.infrastructure.exceptions.ConflictException;
 import com.vergueiro_group.notifyhub_backend_user.infrastructure.exceptions.ResourceNotFoundException;
 import com.vergueiro_group.notifyhub_backend_user.infrastructure.repository.UserRepository;
+import com.vergueiro_group.notifyhub_backend_user.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserConverter userConverter;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public UserDTO saveUser(UserDTO userDTO) {
         emailExiste(userDTO.getEmail());
@@ -57,6 +59,19 @@ public class UserService {
 
     public boolean verificaEmailExistente(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    public UserDTO updateDataUser(String token, UserDTO dto){
+        String email = jwtUtil.extractEmailToken(token.substring(7));
+
+        dto.setPassword(dto.getPassword() != null ? passwordEncoder.encode(dto.getPassword()) : null);
+
+        User userEntity = userRepository.findByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException("Email não localizado"));
+
+        User user = userConverter.updateUser(dto, userEntity);
+
+        return userConverter.paraUserDTO(userRepository.save(user));
     }
 }
 
