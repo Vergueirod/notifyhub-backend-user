@@ -2,6 +2,8 @@ package com.vergueiro_group.notifyhub_backend_user.business.dto;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -9,6 +11,7 @@ import lombok.*;
 @Builder
 public class EnderecoDTO {
 
+    private UUID id;
     private String rua;
     private Long numero;
     private String complemento;
