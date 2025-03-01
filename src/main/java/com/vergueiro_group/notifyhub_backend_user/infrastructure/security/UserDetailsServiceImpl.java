@@ -1,6 +1,7 @@
 package com.vergueiro_group.notifyhub_backend_user.infrastructure.security;
 
 
+import com.vergueiro_group.notifyhub_backend_user.infrastructure.entity.User;
 import com.vergueiro_group.notifyhub_backend_user.infrastructure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
