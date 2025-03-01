@@ -13,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name="telefones")
+@Builder
 public class Telefone {
 
     @Id
