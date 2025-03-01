@@ -42,6 +42,12 @@ public class JwtUtil {
         return extractClaims(token).getSubject();
     }
 
+    // Extrai o email do usuário do token JWT
+    public String extractEmailToken(String token) {
+        // Obtém o assunto (email) das claims do token
+        return extractClaims(token).getSubject();
+    }
+
     // Verifica se o token JWT está expirado
     public boolean isTokenExpired(String token) {
         // Compara a data de expiração do token com a data atual

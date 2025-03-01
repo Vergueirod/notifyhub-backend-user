@@ -1,6 +1,8 @@
 package com.vergueiro_group.notifyhub_backend_user.controller;
 
 import com.vergueiro_group.notifyhub_backend_user.business.UserService;
+import com.vergueiro_group.notifyhub_backend_user.business.dto.EnderecoDTO;
+import com.vergueiro_group.notifyhub_backend_user.business.dto.TelefoneDTO;
 import com.vergueiro_group.notifyhub_backend_user.business.dto.UserDTO;
 import com.vergueiro_group.notifyhub_backend_user.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +42,23 @@ public class UserController {
     public ResponseEntity<Void> deletaUserForEmail(@PathVariable String email) {
         userService.deleteUserForEmail(email);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<UserDTO> updateDataUser(@RequestBody UserDTO dto,
+                                                  @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(userService.updateDataUser(token, dto));
+    }
+
+    @PutMapping("/address")
+    public ResponseEntity<EnderecoDTO> updateAddress(@RequestBody EnderecoDTO dto,
+                                                          @RequestParam("id") Long id){
+        return ResponseEntity.ok(userService.updateAddress(id, dto));
+    }
+
+    @PutMapping("/telephone")
+    public ResponseEntity<TelefoneDTO> updateTelephone(@RequestBody TelefoneDTO dto,
+                                                           @RequestParam("id") Long id){
+        return ResponseEntity.ok(userService.updateTelephone(id, dto));
     }
 }
