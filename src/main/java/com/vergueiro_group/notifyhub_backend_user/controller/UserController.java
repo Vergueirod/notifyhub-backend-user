@@ -12,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -52,13 +54,31 @@ public class UserController {
 
     @PutMapping("/address")
     public ResponseEntity<EnderecoDTO> updateAddress(@RequestBody EnderecoDTO dto,
-                                                          @RequestParam("id") Long id){
-        return ResponseEntity.ok(userService.updateAddress(id, dto));
+                                                          @RequestParam("id") String id){
+        try {
+            UUID uuid = UUID.fromString(id); // Converte String para UUID
+            return ResponseEntity.ok(userService.updateAddress(uuid, dto));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null); // Retorna erro se o formato for inválido
+        }
     }
 
     @PutMapping("/telephone")
     public ResponseEntity<TelefoneDTO> updateTelephone(@RequestBody TelefoneDTO dto,
-                                                           @RequestParam("id") Long id){
+                                                           @RequestParam("id") UUID id){
         return ResponseEntity.ok(userService.updateTelephone(id, dto));
     }
+
+    @PostMapping("/address")
+    public ResponseEntity<EnderecoDTO> addAddress(@RequestBody EnderecoDTO dto,
+                                                     @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(userService.addAddress(token, dto));
+    }
+
+    @PostMapping("/telephone")
+    public ResponseEntity<TelefoneDTO> addPhone(@RequestBody TelefoneDTO dto,
+                                                  @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(userService.addPhone(token, dto));
+    }
+
 }
