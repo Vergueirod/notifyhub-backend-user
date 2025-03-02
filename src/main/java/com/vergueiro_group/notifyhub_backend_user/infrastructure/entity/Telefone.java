@@ -26,6 +26,9 @@ public class Telefone {
     @Column(name="ddd", length=3)
     private String ddd;
 
+//    @Column(name="user_id")
+//    private UUID user_id;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore

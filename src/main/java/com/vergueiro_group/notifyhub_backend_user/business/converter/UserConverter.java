@@ -9,6 +9,7 @@ import com.vergueiro_group.notifyhub_backend_user.infrastructure.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class UserConverter {
@@ -127,6 +128,25 @@ public class UserConverter {
                 .id(entity.getId())
                 .number(dto.getNumber() != null ? dto.getNumber() : entity.getNumber())
                 .ddd(dto.getDdd() != null ? dto.getDdd() : entity.getDdd())
+                .build();
+    }
+
+    public  Endereco paraEnderecoEntity(EnderecoDTO dto, User user){
+        return Endereco.builder()
+                .rua(dto.getRua())
+                .cidade(dto.getCidade())
+                .cep(dto.getCep())
+                .complemento(dto.getComplemento())
+                .estado(dto.getEstado())
+                .numero(dto.getNumero())
+                .user(user)
+                .build();
+    }
+    public  Telefone paraTelefoneEntity(TelefoneDTO dto, UUID idUser){
+        return Telefone.builder()
+                .number(dto.getNumber())
+                .ddd(dto.getDdd())
+                //.user_id(idUser)
                 .build();
     }
 }
