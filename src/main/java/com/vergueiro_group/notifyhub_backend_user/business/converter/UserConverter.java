@@ -20,20 +20,14 @@ public class UserConverter {
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
-                .enderecos(paraListaEndereco(userDTO.getEnderecos()))
-                .telefones(paraListaTelefone(userDTO.getTelefones()))
+                .enderecos(userDTO.getEnderecos() != null ?
+                        paraListaEndereco(userDTO.getEnderecos()) : null)
+                .telefones(userDTO.getTelefones() != null ?
+                        paraListaTelefone(userDTO.getTelefones()) : null)
                 .build();
     }
     public List<Endereco> paraListaEndereco(List<EnderecoDTO> enderecoDTOS){
-        //Java Stream
         return enderecoDTOS.stream().map(this::paraEndereco).toList();
-
-        // Com for
-//        List<Endereco> enderecos = new ArrayList<>();
-//        for(EnderecoDTO enderecoDTO: enderecoDTOS){
-//            enderecos.add(paraEndereco(enderecoDTO))
-//        }
-//        return enderecos;
     }
 
     public Endereco paraEndereco(EnderecoDTO enderecoDTO){
@@ -65,8 +59,10 @@ public class UserConverter {
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
-                .enderecos(paraListaEnderecoDTO(userDTO.getEnderecos()))
-                .telefones(paraListaTelefoneDTO(userDTO.getTelefones()))
+                .enderecos(userDTO.getEnderecos() != null ?
+                        paraListaEnderecoDTO(userDTO.getEnderecos()) : null)
+                .telefones(userDTO.getTelefones() != null ?
+                        paraListaTelefoneDTO(userDTO.getTelefones()) : null)
                 .build();
     }
     public List<EnderecoDTO> paraListaEnderecoDTO(List<Endereco> enderecoDTOS){
